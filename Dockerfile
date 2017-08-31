@@ -14,7 +14,7 @@ RUN npm install
 # Move all our files to the work dir
 COPY . /usr/src/app
 
-EXPOSE 1000
+EXPOSE 80
 
 
 
