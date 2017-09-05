@@ -5,7 +5,8 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install nodemon globally
-RUN npm install -g nodemon
+RUN npm install -g nodemon && \
+	npm install -g mocha
 
 # Install app dependencies
 COPY package.json /usr/src/app

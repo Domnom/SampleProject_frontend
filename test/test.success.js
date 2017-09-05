@@ -8,25 +8,33 @@ var HelpfulService = require('../services/Helpful.service');
 
 describe("Good - Helpful service", function() {
 
- 	var helpfulSevice;
+ 	var helpfulService;
 
  	before(function() {
- 		helpfulSevice = new HelpfulService();
+ 		helpfulService = new HelpfulService();
  	});
 
  	it ('add -> Add some numbers', function() {
 
- 		var intTotal = helpfulSevice.add(1, 20);
+ 		var intTotal = helpfulService.add(1, 20);
 
  		expect(intTotal).to.equal(21);
  	});
 
  	it ('subtract -> Subtract some numbers', function() {
 
- 		var intTotal = helpfulSevice.subtract(5, 3);
+ 		var intTotal = helpfulService.subtract(5, 3);
 
  		expect(intTotal).to.equal(2);
  	
+ 	});
+
+ 	it ('Should get the envs set in this server', function() {
+
+ 		var envObj = helpfulService.getEnv();
+
+ 		expect(envObj).to.have.property('GATEWAY_URL').to.equal('http://sample-project-gateway');
+ 		
  	});
 
  })

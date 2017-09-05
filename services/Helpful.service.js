@@ -12,6 +12,13 @@ function HelpfulService()
 		return parseInt(intA) - parseInt(intB);
 	}
 
+	this.getEnv = function()
+	{
+		return {
+			'GATEWAY_URL' : process.env.GATEWAY_URL
+		}
+	}
+
 }
 
 
