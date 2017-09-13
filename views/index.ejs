@@ -5,10 +5,265 @@
 
 	<!-- Custom scripts saved to ./public -->
 	<script src="/app/env.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style type="text/css">
+		
+		games {
+			display: block;
+		}
+
+		game {
+			display: block;
+		}
+
+	</style>
 </head>
 <body>
 
-	<h1>Hello, world!</h1>
+
+	<h1>Welcome to the SampleProject_frontend</h1>
+	<hr>
+	<games>
+
+	</games>
+	<br>
+	<br>
+	<br>
+	<newgame>
+		<input type="" name="" id="createGameInput" placeholder="game name">
+		<button id="createGameBtn">New Game</button>
+	</newgame>
+	
+
+	<script type="text/javascript">
+		window.onload = function() {
+			
+			function Game(ctrl) 
+			{
+				var me = this;
+				this._id;
+				this._dbId;
+				this._name;
+
+				this.ctrl;
+				this.dom;
+				this.domName;
+				this.domUpdateNameBtn;
+
+				this.template = function()
+				{
+					me.dom = document.createElement('game');
+
+						me.domName = document.createElement('input');
+
+						me.domUpdateNameBtn = document.createElement('button');
+						me.domUpdateNameBtn.innerText = 'Save';
+
+						me.domDeleteNameBtn = document.createElement('button');
+						me.domDeleteNameBtn.innerText = "Delete";
+
+					me.dom.appendChild(me.domName);
+					me.dom.appendChild(me.domUpdateNameBtn);
+					me.dom.appendChild(me.domDeleteNameBtn);
+
+				}
+
+
+				this.remove = function()
+				{
+					me.dom.remove();
+				}
+
+
+				this.initEvents = function()
+				{
+					me.domUpdateNameBtn.addEventListener('click', function() {
+
+						var newName = me.domName.value;
+
+						me._name = newName;
+
+						me.ctrl.updateGame(me._id);
+
+					});
+
+					me.domDeleteNameBtn.addEventListener('click', function() {
+
+						me.ctrl.deleteGame(me._id);
+
+					});
+				}
+
+				this.construct = function(ctrl)
+				{
+					me.ctrl = ctrl;
+
+					me.template();
+
+					me.initEvents();
+				}
+				this.construct(ctrl);
+
+			}
+			Game.prototype = {
+
+				set id (_id) {
+					this._id = _id;
+				},
+
+				get id () {
+					return this._id;
+				},
+
+				set dbId (_dbId) {
+					this._dbId = _dbId;
+				},
+
+				get dbId () {
+					return this._dbId;
+				},
+
+				set name (_name) {
+					this._name = _name;
+
+					if (this.domName)
+					{
+						this.domName.value = _name;
+					}
+				},
+
+				get name () {
+					return this.domName.value;
+				}
+
+			}
+
+
+
+
+			function App()
+			{
+				var me = this;
+				this.gatewayUrl = "<%=GW_URL%>";
+				this.createGameInput = document.getElementById('createGameInput');
+				this.createGameBtn   = document.getElementById('createGameBtn');
+				this.games 			 = document.getElementsByTagName('games')[0];
+
+				this.id = 1;
+				this.gameObjs = {};
+
+				this.createGame = function(dbId, gameName)
+				{
+					var game 	  = new Game(me);
+						game.id   = me.id++;
+						game.dbId = dbId;
+						game.name = gameName;
+
+					// -- Append to parent
+					me.games.appendChild(game.dom);
+
+					me.gameObjs[game.id] = game;
+
+				}
+
+				this.updateGame = function(id)
+				{
+					var game = me.gameObjs[id];
+
+					if (game)
+					{
+						$.ajax({
+							url: me.gatewayUrl + "/game/" + game.dbId,
+							type: 'put',
+							data : {
+								name : game.name
+							},
+							success : function(data) {
+								console.log('Update game success', data);
+
+							},
+							error : function(error) {
+								console.error('Update game error', error);
+							}
+						})
+					}
+				}
+
+
+				this.deleteGame = function(id)
+				{
+					var game = me.gameObjs[id];
+
+					if (game)
+					{
+						$.ajax({
+							url: me.gatewayUrl + "/game/" + game.dbId,
+							type : 'delete',
+							success : function(data) {
+								console.log('Delete game success', data);
+							},
+							error : function(error) {
+								console.error('Delete game error', error);
+							}
+						})
+					}
+				}
+
+
+				this.createGameBtn.addEventListener('click', function() {
+
+					var gameName = createGameInput.value;
+
+					$.ajax({
+						url: me.gatewayUrl + "/game",
+						type: 'post',
+						data : {
+							name : gameName
+						},
+						success : function(data) {
+
+							var body = data.body;
+
+							me.createGame(body.data.id, body.data.name);
+
+						},
+						error : function(error) {
+							console.error('error : ', error);
+						}
+					})
+
+				});
+
+				//-- Get all games
+				$.ajax({
+					type : "GET",
+					url : me.gatewayUrl + "/game",
+					success : function(data) {
+						console.log('data', data);
+						var gamesData = data.body.data;
+
+						for (var i = 0; i < gamesData.length; i++)
+						{
+							var gameData = gamesData[i];
+
+							me.createGame(gameData.id, gameData.name);
+						}
+
+					},
+					error : function(error) {
+						console.log('error : ', error);
+					}
+				});
+
+			}
+
+			this.app = new App();
+			
+
+		};
+	</script>
 
 </body>
 </html>
+
+
