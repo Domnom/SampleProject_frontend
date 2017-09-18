@@ -35,11 +35,11 @@ module.exports = {
     }
   ],
   "paths": {
-    "bitmaps_reference": "backstop_data/bitmaps_reference",
-    "bitmaps_test": "backstop_data/bitmaps_test",
-    "engine_scripts": "backstop_data/engine_scripts",
-    "html_report": "backstop_data/html_report",
-    "ci_report": "backstop_data/ci_report"
+    "bitmaps_reference": "backstop_tests/backstop_data/bitmaps_reference",
+    "bitmaps_test": "backstop_tests/backstop_data/bitmaps_test",
+    "engine_scripts": "backstop_tests/backstop_data/engine_scripts",
+    "html_report": "backstop_tests/backstop_data/html_report",
+    "ci_report": "backstop_tests/backstop_data/ci_report"
   },
   "openReport" : false,
   "report": ["browser"],
