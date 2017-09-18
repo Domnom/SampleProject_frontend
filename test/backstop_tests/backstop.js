@@ -17,7 +17,7 @@ module.exports = {
   "scenarios": [
     {
       "label": "BackstopJS Homepage",
-      "cookiePath": __dirname + "/backstop_data/engine_scripts/cookies.json",
+      "cookiePath": "backstop_data/engine_scripts/cookies.json",
       "url": "https://garris.github.io/BackstopJS/",
       "referenceUrl": "",
       "readyEvent": "",
@@ -35,12 +35,13 @@ module.exports = {
     }
   ],
   "paths": {
-    "bitmaps_reference": __dirname + "/backstop_data/bitmaps_reference",
-    "bitmaps_test": __dirname + "/backstop_data/bitmaps_test",
-    "engine_scripts": __dirname + "/backstop_data/engine_scripts",
-    "html_report": __dirname + "/backstop_data/html_report",
-    "ci_report": __dirname + "/backstop_data/ci_report"
+    "bitmaps_reference": "backstop_data/bitmaps_reference",
+    "bitmaps_test": "backstop_data/bitmaps_test",
+    "engine_scripts": "backstop_data/engine_scripts",
+    "html_report": "backstop_data/html_report",
+    "ci_report": "backstop_data/ci_report"
   },
+  "openReport" : false,
   "report": ["browser"],
   "engine": "phantomjs",
   "casperFlags": [],
